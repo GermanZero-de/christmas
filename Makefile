@@ -3,6 +3,10 @@
 install:
 	@echo "please install python 3 and pipenv"
 	pipenv --python 3
+	pipenv install
+
+install-dev:
+	pipenv --python 3
 	pipenv install --dev
 	pipenv run pip install https://github.com/pyinstaller/pyinstaller/archive/develop.tar.gz
 
