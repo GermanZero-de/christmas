@@ -4,12 +4,23 @@ import json
 from os import environ
 from sanic import Sanic
 from sanic import response
+from sanic.exceptions import NotFound, ServerError, abort
 
 from christmas import server
 
 LOG_LEVEL = logging.getLevelName(environ.get('LOG_LEVEL', 'WARNING'))
 
 app = Sanic()
+
+@app.exception(NotFound)
+async def ignore_404s(request, exception):
+    logging.info("This URL could not be found: {}".format(request.url))
+    return response.text("Not Found", status=404)
+
+@app.exception(ServerError)
+async def catch_500s(request, exception):
+    logging.error("This created an error: {}".format(str(request)))
+    return text("There was an error", status=500)
 
 @app.route("/", methods=['GET'])
 async def get_html(request):
@@ -26,8 +37,8 @@ async def request_deputy(request):
         profile = server.get_profile(uuid)
         return response.json(profile)
     else:
-        return response.json(
-                {'message': 'could not find profile for ' + str(request.json)},
+        return response.text(
+                "This postcode could not be found: {}".format(str(request.json)),
                 status=204)
 
 if __name__ == "__main__":
