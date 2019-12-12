@@ -1,0 +1,42 @@
+import pytest
+import json
+
+import christmas.server as server
+
+
+def test_invalid_input():
+    assert server.validate_input('foobar') is False
+    assert server.validate_input('111111') is False
+    assert server.validate_input('0') is False
+    assert server.validate_input('; exec bla') is False
+    assert server.validate_input('True') is False
+    assert server.validate_input('12f34') is False
+
+
+def test_valid_input():
+    assert server.validate_input('12345') is True
+    assert server.validate_input('01234') is True
+    assert server.validate_input('12589') is True
+
+
+def test_valid_uuid():
+    assert server.get_uuid("12589") == "2c8dfdc9-5efd-4b38-a0dc-300ad96d537d"
+    assert server.get_uuid("91058") == "bbee4f1d-36c1-444e-a021-d35ea954be5f"
+    assert server.get_uuid("68789") == "48db5bda-0234-4ba0-b584-d14a6cbe5bc9"
+    assert server.get_uuid("88499") == "d13c5f23-39a7-4246-971e-5a54e750c30b"
+
+def test_invalid_uuid():
+    assert server.get_uuid("12345") == False
+    assert server.get_uuid("00000") == False
+    assert server.get_uuid("98765") == False
+
+def test_get_profile_success():
+    assert server.get_profile("bbee4f1d-36c1-444e-a021-d35ea954be5f") == {'degree': None, 'first_name': 'Stefan', 'last_name': 'Müller', 'party': 'CSU', 'picture_url': 'https://www.abgeordnetenwatch.de/sites/abgeordnetenwatch.de/files/stefan_mueller_114.jpg'}
+    assert server.get_profile("2c8dfdc9-5efd-4b38-a0dc-300ad96d537d") == {'degree': 'Dr.', 'first_name': 'Gregor', 'last_name': 'Gysi', 'party': 'DIE LINKE', 'picture_url': 'https://www.abgeordnetenwatch.de/sites/abgeordnetenwatch.de/files/dr_gregor_gysi_13.jpg'}
+    assert server.get_profile("680f2d5e-5506-4104-908a-bdcb51d6b172") == {'degree': None, 'first_name': 'Helge', 'last_name': 'Lindh', 'party': 'SPD', 'picture_url': 'https://www.abgeordnetenwatch.de/sites/abgeordnetenwatch.de/files/users/helgelindh3m.jpg'}
+    assert server.get_profile("776af5e3-42e2-47d2-9941-63740bf12384") == {'degree': 'Dr.', 'first_name': 'Matthias', 'last_name': 'Bartke', 'party': 'SPD', 'picture_url': 'https://www.abgeordnetenwatch.de/sites/abgeordnetenwatch.de/files/users/18010148_1122966434515952_2325588779670743477_n_0.jpg'}
+
+def test_get_profile_fail():
+    assert server.get_profile("foobar") == False
+    assert server.get_profile("4f981600-1744-4e44-adeb-1af1a7fc6d7a") == False
+    assert server.get_profile("&%$") == False

@@ -10,6 +10,7 @@ pytest-cov = "*"
 pytest-asyncio = "*"
 
 [packages]
+christmas = {editable = true,path = "."}
 multidict = "==4.6.1"
 sanic = "*"
 

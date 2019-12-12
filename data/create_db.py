@@ -28,7 +28,9 @@ profile_data = {d["constituency"]["uuid"]:
          "picture_url": d["personal"]["picture"]["url"],
          "party": d["party"]}
         for d in deputies["profiles"]
-        if d["constituency"] and d["constituency"]["uuid"]}
+        if d["constituency"]
+            and d["constituency"]["uuid"]
+            and d["constituency"]["won"]}
 
 with open('profile_data.json', 'w+') as f:
     f.write(json.dumps(profile_data))
