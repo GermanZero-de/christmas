@@ -1,46 +1,46 @@
-import re
 import logging
 import json
 
-def load_postcodes():
-    with open('data/postcodes.json', 'r') as f:
-        data = json.loads(f.read())
-    f.close()
-    return data
+import christmas.data as data
 
-postcodes = load_postcodes()
+from sanic import Sanic
+from sanic import response
+from sanic.exceptions import NotFound, ServerError, abort
 
-def load_profile_data():
-    with open('data/profile_data.json', 'r') as f:
-        data = json.loads(f.read())
-    f.close()
-    return data
+app = Sanic()
 
-profile_data = load_profile_data()
 
-def validate_input(request):
-    regex = re.compile(r'^\d{5}$')
-    try:
-        logging.debug(str(request))
-        return bool(regex.match(str(request)))
-    except Exception as e:
-        logging.warning('User Input could not be validated: ' + str(e))
-        return False
+@app.exception(NotFound)
+async def ignore_404s(request, exception):
+    logging.info("This URL could not be found: {}".format(request.url))
+    return response.text("Not Found", status=404)
 
-def get_uuid(validated_input):
-    try:
-        uuid = postcodes[validated_input]["uuid"]
-        logging.debug('UUID: ' + uuid)
-        return uuid
-    except Exception as e:
-        logging.warning('Could not find postcode: ' + str(e))
-        return False
 
-def get_profile(uuid):
-    try:
-        profile = profile_data[uuid]
-        logging.debug('Profile: ' + json.dumps(profile))
-        return profile
-    except Exception as e:
-        logging.warning('Could not find profile for UUID: ' + uuid + ' Error was: ' + str(e))
-        return False
+@app.exception(ServerError)
+async def catch_500s(request, exception):
+    logging.error("This created an error: {}".format(str(request)))
+    return text("There was an error", status=500)
+
+
+@app.route("/", methods=['GET'])
+async def get_html(request):
+    with open('site/index.html', 'r') as f:
+        html = f.read()
+        f.close()
+    return response.html(html)
+
+
+@app.route("/", methods=["POST"])
+async def request_deputy(request):
+    logging.debug(request.body)
+    valid_input = data.validate_input(request.body)
+    if valid_input:
+        uuid = data.get_uuid(valid_input)
+    else:
+        uuid = False
+    logging.debug("UUID: " + str(uuid))
+    if uuid:
+        profile = data.get_profile(uuid)
+        return response.json(profile)
+    else:
+        return response.text("No Content", status=204)
