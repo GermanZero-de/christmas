@@ -6,11 +6,11 @@ RUN apt-get update -y \
     && apt-get clean \
     && pip install pipenv
 
-RUN adduser --gecos '' --disabled-password -u 1001 xmascard
-USER xmascard
-WORKDIR /home/xmascard
+RUN adduser --gecos '' --disabled-password -u 1001 christmas
+USER christmas
+WORKDIR /home/christmas
 
-ADD --chown=xmascard:xmascard . ./
+ADD --chown=christmas:christmas . ./
 
 RUN make install
 
