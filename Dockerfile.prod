@@ -1,0 +1,16 @@
+FROM python:3.8-slim
+
+RUN apt-get update -y \
+    && apt-get install \
+    && apt-get clean \
+    && pip install https://github.com/pyinstaller/pyinstaller/archive/develop.tar.gz
+
+RUN adduser --gecos '' --disabled-password -u 1001 christmas
+USER christmas
+WORKDIR /home/christmas
+EXPOSE 8000
+
+ADD --chown=christmas:christmas . ./
+RUN pyinstaller main.py --name christmas --onefile --add-data data/postcodes.json:data/postcodes.json --add-data data/profile_data.json:data/profile_data.json
+
+ENTRYPOINT ./dist/christmas
