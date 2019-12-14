@@ -11,10 +11,10 @@ dev-install:
 	pipenv install --dev
 
 test:
-	#pipenv check
+	pipenv check
 	#pipenv run pytest --junit-xml=xunit-report.xml
 	#pipenv run pytest --cov=christmas --cov-report=xml
-	#pipenv run flake8
+	pipenv run flake8
 	pipenv run pytest
 
 build:

@@ -22,15 +22,15 @@ with open('postcodes.json', 'w+') as f:
     f.write(json.dumps(postcodes))
 
 profile_data = {d["constituency"]["uuid"]:
-        {"first_name": d["personal"]["first_name"],
-         "last_name": d["personal"]["last_name"],
-         "degree": d["personal"]["degree"],
-         "picture_url": d["personal"]["picture"]["url"],
-         "party": d["party"]}
-        for d in deputies["profiles"]
-        if d["constituency"]
-            and d["constituency"]["uuid"]
-            and d["constituency"]["won"]}
+                {"first_name": d["personal"]["first_name"],
+                 "last_name": d["personal"]["last_name"],
+                 "degree": d["personal"]["degree"],
+                 "picture_url": d["personal"]["picture"]["url"],
+                 "party": d["party"]}
+                for d in deputies["profiles"]
+                if d["constituency"]
+                and d["constituency"]["uuid"]
+                and d["constituency"]["won"]}
 
 with open('profile_data.json', 'w+') as f:
     f.write(json.dumps(profile_data))

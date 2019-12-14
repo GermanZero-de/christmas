@@ -1,11 +1,10 @@
 import logging
-import json
 
 import christmas.data as data
 
 from sanic import Sanic
 from sanic import response
-from sanic.exceptions import NotFound, ServerError, abort
+from sanic.exceptions import NotFound, ServerError
 
 app = Sanic()
 
@@ -19,7 +18,7 @@ async def ignore_404s(request, exception):
 @app.exception(ServerError)
 async def catch_500s(request, exception):
     logging.error("This created an error: {}".format(str(request)))
-    return text("There was an error", status=500)
+    return response.text("There was an error", status=500)
 
 
 @app.route("/", methods=['GET'])
