@@ -1,4 +1,4 @@
-.PHONY: install test docker-build clean run
+.PHONY: install dev-install test docker-build clean run
 
 install:
 	@echo "please install python 3 and pipenv"
