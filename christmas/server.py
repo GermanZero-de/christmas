@@ -21,13 +21,8 @@ async def catch_500s(request, exception):
     return response.text("There was an error", status=500)
 
 
-@app.route("/", methods=['GET'])
-async def get_html(request):
-    with open('site/index.html', 'r') as f:
-        html = f.read()
-        f.close()
-    return response.html(html,
-                         headers={'Access-Control-Allow-Origin': '*'})
+app.static('/', './site/index.html')
+app.static('/', './site')
 
 
 @app.route("/", methods=["POST"])
