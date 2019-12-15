@@ -26,7 +26,8 @@ async def get_html(request):
     with open('site/index.html', 'r') as f:
         html = f.read()
         f.close()
-    return response.html(html)
+    return response.html(html,
+                         headers={'Access-Control-Allow-Origin': '*'})
 
 
 @app.route("/", methods=["POST"])
@@ -40,6 +41,9 @@ async def request_deputy(request):
     logging.debug("UUID: " + str(uuid))
     if uuid:
         profile = data.get_profile(uuid)
-        return response.json(profile)
+        return response.json(profile,
+                             headers={'Access-Control-Allow-Origin': '*'})
     else:
-        return response.text("No Content", status=204)
+        return response.text("No Content",
+                             status=204,
+                             headers={'Access-Control-Allow-Origin': '*'})
