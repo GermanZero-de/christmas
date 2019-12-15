@@ -1,4 +1,4 @@
-var url = "http://157.230.25.163:8000/";
+var url = "http://weihnachten.germanzero.de/";
 var plzInputId = "#Postleitzahl";
 var displayResultsContainerId = "#data-container";
 var formErrorClass = ".form-fail";
