@@ -1,4 +1,4 @@
-var url = "http://157.230.25.163:8000/";
+var url = "http://157.230.25.163/";
 var plzInputId = "#Postleitzahl";
 var displayResultsContainerId = "#data-container";
 var formErrorClass = ".form-fail";
