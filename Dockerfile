@@ -1,8 +1,8 @@
-FROM python:3.8-buster
+FROM python:3.7-slim-buster
 
 
 RUN apt-get update -y \
-    && apt-get install \
+    && apt-get install -y gcc \
     && apt-get clean \
     && pip install pipenv
 
@@ -12,8 +12,8 @@ WORKDIR /home/christmas
 
 ADD --chown=christmas:christmas . ./
 
-RUN make install
+RUN pipenv install
 
 EXPOSE 8000
 
-ENTRYPOINT make run
+ENTRYPOINT pipenv run python main.py
