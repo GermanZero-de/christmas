@@ -39,8 +39,7 @@ function onSuccess(data) {
   var party = '<div class="result-field result-field-party">'+ data.party+'</div>';
   const address = '<div class="result-field result-field-address">'+ 'Deutscher Bundestag <br> Platz der Republik 1 <br> 11011 Berlin'+'</div>';
   var picture = data.picture_url ? ('<div class="result-field result-field-picture"><img class="result-field-picture-img" src="'+data.picture_url+'"/></div>') : '';
-  const newletterLink = '<a href="https://www.germanzero.de" class="submit-button w-button newsletter-link" target="_blank">Zum Newsletter anmelden</a>'
-  var content =  fullName + degree + party + address + picture + newletterLink;
+  var content =  fullName + degree + party + address + picture;
   container.innerHTML = content;
   clearError();
 }
