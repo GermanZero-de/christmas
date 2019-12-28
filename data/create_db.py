@@ -30,7 +30,10 @@ profile_data = {d["constituency"]["uuid"]:
                 for d in deputies["profiles"]
                 if d["constituency"]
                 and d["constituency"]["uuid"]
-                and d["constituency"]["won"]}
+                and d["constituency"]["won"]
+                # hakverdi won but is not marked as winner
+                or d["constituency"]
+                and d["constituency"]["uuid"] == "8c10ec49-e6fc-40af-be9f-f992fcde5482"}
 
 with open('profile_data.json', 'w+') as f:
     f.write(json.dumps(profile_data))
