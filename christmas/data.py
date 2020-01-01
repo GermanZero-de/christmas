@@ -55,5 +55,5 @@ def get_profile(uuid):
         logging.debug('Profile: ' + json.dumps(profile))
         return profile
     except Exception as e:
-        logging.warning('Could not find profile for UUID: ' + uuid + ' Error was: ' + str(e))
+        logging.warning('Could not find profile for UUID: ' + str(uuid) + ' Error was: ' + str(e))
         return False

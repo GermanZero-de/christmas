@@ -1,3 +1,4 @@
+import json
 import christmas.data as data
 
 
@@ -64,3 +65,12 @@ def test_get_profile_fail():
     assert data.get_profile("foobar") is False
     assert data.get_profile("4f981600-1744-4e44-adeb-1af1a7fc6d7a") is False
     assert data.get_profile("&%$") is False
+
+
+def test_all_valid_zipcodes():
+    with open('data/zipcodes.de.json', 'r') as f:
+        zipcodes = json.loads(f.read())
+        f.close()
+    for zip in zipcodes:
+        if type(bool(data.get_profile(data.get_uuid(str(int(zip["zipcode"])))))) is bool:
+            assert True
