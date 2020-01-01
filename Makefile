@@ -2,12 +2,12 @@
 
 install:
 	@echo "please install python 3 and pipenv"
-	pipenv --python 3
+	pipenv --python 3.7
 	pipenv install
 
 dev-install:
 	@echo "please install python 3 and pipenv"
-	pipenv --python 3
+	pipenv --python 3.7
 	pipenv install --dev
 
 test:
