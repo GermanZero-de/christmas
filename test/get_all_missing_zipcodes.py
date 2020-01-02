@@ -20,6 +20,7 @@ def test_all_valid_zipcodes():
                       "missing_zipcodes": missing_zipcodes}
     print(json.dumps(zipcode_errors))
 
+
 if __name__ == "__main__":
     logger = logging.getLogger()
     handler = logging.StreamHandler()

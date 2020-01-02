@@ -30,13 +30,13 @@ async def request_deputy(request):
     logging.debug(request.body)
     valid_input = data.validate_input(request.body)
     if valid_input:
-        uuid = data.get_uuid(valid_input)
+        uuids = data.get_uuids(valid_input)
     else:
-        uuid = False
-    logging.debug("UUID: " + str(uuid))
-    if uuid:
-        profile = data.get_profile(uuid)
-        return response.json(profile,
+        uuids = False
+    logging.debug("UUID: " + str(uuids))
+    if uuids:
+        profiles = data.get_profiles(uuids)
+        return response.json(profiles,
                              headers={'Access-Control-Allow-Origin': '*'})
     else:
         return response.text("No Content",

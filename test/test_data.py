@@ -20,51 +20,60 @@ def test_valid_input():
 
 
 def test_valid_uuid():
-    assert data.get_uuid("12589") == "2c8dfdc9-5efd-4b38-a0dc-300ad96d537d"
-    assert data.get_uuid("91058") == "bbee4f1d-36c1-444e-a021-d35ea954be5f"
-    assert data.get_uuid("68789") == "48db5bda-0234-4ba0-b584-d14a6cbe5bc9"
-    assert data.get_uuid("88499") == "d13c5f23-39a7-4246-971e-5a54e750c30b"
-    assert data.get_uuid("01561") == "f1cb7f2e-0ed7-4c0c-a1fd-b23f901c460c"
+    assert data.get_uuids("12589") == ["2c8dfdc9-5efd-4b38-a0dc-300ad96d537d"]
+    assert data.get_uuids("91058") == ["bbee4f1d-36c1-444e-a021-d35ea954be5f"]
+    assert data.get_uuids("68789") == ["48db5bda-0234-4ba0-b584-d14a6cbe5bc9"]
+    assert data.get_uuids("88499") == ["29fe5fb5-226c-42c2-862f-8eaaf5b5fad5",
+                                       "d13c5f23-39a7-4246-971e-5a54e750c30b"]
+    assert data.get_uuids("01561") == ["f1cb7f2e-0ed7-4c0c-a1fd-b23f901c460c"]
+
+
+def test_valid_multi_uuids():
+    assert data.get_uuids("10965") == ['5c5150d5-882f-4180-b407-4f21da6b5554',
+                                       '4f9e2e29-cf47-4f22-be24-af8cf65fbb5c',
+                                       '35c257ab-c40a-487b-926c-89b1eeaeeba3']
+    assert data.get_uuids("24799") == ['a2e298b8-19f1-4101-9400-86a7f5aec20c',
+                                       '53b9bcb7-3775-4dd9-9101-d1fcf1dcd111']
 
 
 def test_invalid_uuid():
-    assert data.get_uuid("12345") is False
-    assert data.get_uuid("00000") is False
-    assert data.get_uuid("98765") is False
+    assert data.get_uuids("12345") is False
+    assert data.get_uuids("00000") is False
+    assert data.get_uuids("98765") is False
 
 
 def test_get_profile_success():
-    assert data.get_profile("bbee4f1d-36c1-444e-a021-d35ea954be5f") == {
+    assert data.get_profiles(["bbee4f1d-36c1-444e-a021-d35ea954be5f"]) == [{
             'degree': None,
             'first_name': 'Stefan',
             'last_name': 'Müller',
             'party': 'CSU',
-            'picture_url': 'https://www.abgeordnetenwatch.de/sites/abgeordnetenwatch.de/files/stefan_mueller_114.jpg'}
-    assert data.get_profile("2c8dfdc9-5efd-4b38-a0dc-300ad96d537d") == {
+            'picture_url': 'https://www.abgeordnetenwatch.de/sites/abgeordnetenwatch.de/files/stefan_mueller_114.jpg'}]
+    assert data.get_profiles(["2c8dfdc9-5efd-4b38-a0dc-300ad96d537d"]) == [{
             'degree': 'Dr.',
             'first_name': 'Gregor',
             'last_name': 'Gysi',
             'party': 'DIE LINKE',
-            'picture_url': 'https://www.abgeordnetenwatch.de/sites/abgeordnetenwatch.de/files/dr_gregor_gysi_13.jpg'}
-    assert data.get_profile("680f2d5e-5506-4104-908a-bdcb51d6b172") == {
+            'picture_url': 'https://www.abgeordnetenwatch.de/sites/abgeordnetenwatch.de/files/dr_gregor_gysi_13.jpg'}]
+    assert data.get_profiles(["680f2d5e-5506-4104-908a-bdcb51d6b172"]) == [{
             'degree': None,
             'first_name': 'Helge',
             'last_name': 'Lindh',
             'party': 'SPD',
-            'picture_url': 'https://www.abgeordnetenwatch.de/sites/abgeordnetenwatch.de/files/users/helgelindh3m.jpg'}
-    assert data.get_profile("776af5e3-42e2-47d2-9941-63740bf12384") == {
+            'picture_url': 'https://www.abgeordnetenwatch.de/sites/abgeordnetenwatch.de/files/users/helgelindh3m.jpg'}]
+    assert data.get_profiles(["776af5e3-42e2-47d2-9941-63740bf12384"]) == [{
             'degree': 'Dr.',
             'first_name': 'Matthias',
             'last_name': 'Bartke',
             'party': 'SPD',
             'picture_url': 'https://www.abgeordnetenwatch.de/sites/abgeordnetenwatch.de'
-                           '/files/users/18010148_1122966434515952_2325588779670743477_n_0.jpg'}
+                           '/files/users/18010148_1122966434515952_2325588779670743477_n_0.jpg'}]
 
 
 def test_get_profile_fail():
-    assert data.get_profile("foobar") is False
-    assert data.get_profile("4f981600-1744-4e44-adeb-1af1a7fc6d7a") is False
-    assert data.get_profile("&%$") is False
+    assert data.get_profiles("foobar") is False
+    assert data.get_profiles("4f981600-1744-4e44-adeb-1af1a7fc6d7a") is False
+    assert data.get_profiles("&%$") is False
 
 
 def test_all_valid_zipcodes():
@@ -72,5 +81,5 @@ def test_all_valid_zipcodes():
         zipcodes = json.loads(f.read())
         f.close()
     for zip in zipcodes:
-        if type(bool(data.get_profile(data.get_uuid(str(int(zip["zipcode"])))))) is bool:
+        if type(bool(data.get_profiles(data.get_uuids(str(int(zip["zipcode"])))))) is bool:
             assert True

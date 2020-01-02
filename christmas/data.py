@@ -38,22 +38,22 @@ def validate_input(request):
         return False
 
 
-def get_uuid(validated_input):
+def get_uuids(validated_input):
     logging.debug("Validated Input: " + validated_input)
     try:
-        uuid = postcodes[str(int(validated_input))]["uuid"]
-        logging.debug('UUID: ' + uuid)
-        return uuid
+        uuids = postcodes[str(int(validated_input))]["uuids"]
+        logging.debug('UUID: ' + str(uuids))
+        return uuids
     except Exception as e:
         logging.warning('Could not find postcode: ' + str(e))
         return False
 
 
-def get_profile(uuid):
+def get_profiles(uuids):
     try:
-        profile = profile_data[uuid]
-        logging.debug('Profile: ' + json.dumps(profile))
-        return profile
+        profiles = [profile_data[uuid] for uuid in uuids]
+        logging.debug('Profile: ' + str(profiles))
+        return profiles
     except Exception as e:
-        logging.warning('Could not find profile for UUID: ' + str(uuid) + ' Error was: ' + str(e))
+        logging.warning('Could not find profile for UUID: ' + str(uuids) + ' Error was: ' + str(e))
         return False

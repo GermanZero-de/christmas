@@ -15,8 +15,11 @@ deputies = json.loads(data)
 postcodes = {}
 
 for c in constituencies['constituencies']:
-    areacodes = {x["code"]: {"uuid": c["uuid"]} for x in c["areacodes"]}
-    postcodes.update(areacodes)
+    for x in c["areacodes"]:
+        postcodes.update({x["code"]: {"uuids": []}})
+for c in constituencies['constituencies']:
+    for x in c["areacodes"]:
+        postcodes[x["code"]]["uuids"].append(c["uuid"])
 
 with open('postcodes.json', 'w+') as f:
     f.write(json.dumps(postcodes))
