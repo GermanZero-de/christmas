@@ -1,4 +1,4 @@
-var url = "https://weihnachten.germanzero.de/";
+var url = window.location.origin;
 var plzInputId = "#Postleitzahl";
 var displayResultsContainerId = "#data-container";
 var formErrorClass = ".form-fail";
