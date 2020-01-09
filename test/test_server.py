@@ -42,6 +42,33 @@ def test_request_deputy_postcode_existent():
             'picture_url': 'https://www.abgeordnetenwatch.de/sites/abgeordnetenwatch.de/files/users/thomas_de_maiziere.jpg'}]
 
 
+def test_request_deputy_postcode_multiple():
+    data = 'postcode=10965'
+    request, response = app.test_client.post('/', data=data)
+    assert response.status == 200
+    assert response.json == [{
+        'degree': 'Dr.',
+        'first_name': 'Jan-Marco',
+        'last_name': 'Luczak',
+        'party': 'CDU',
+        'picture_url': 'https://www.abgeordnetenwatch.de/sites/abgeordnetenwatch.de/files/users/jml_btw2017.jpg'
+        },
+        {
+        'degree': 'Dr.',
+        'first_name': 'Fritz',
+        'last_name': 'Felgentreu',
+        'party': 'SPD',
+        'picture_url': 'https://www.abgeordnetenwatch.de/sites/abgeordnetenwatch.de/files/users/fritzabwa.jpg'
+        },
+        {
+         'degree': None,
+         'first_name': 'Canan',
+         'last_name': 'Bayram',
+         'party': 'DIE GRÜNEN',
+         'picture_url': 'https://www.abgeordnetenwatch.de/sites/abgeordnetenwatch.de/files/users/canan_bayram_2017.jpg'
+        }]
+
+
 def test_request_deputy_malformed():
     data = 'postcode=foobar'
     request, response = app.test_client.post('/', data=data)
