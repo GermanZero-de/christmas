@@ -6,7 +6,7 @@ from sanic import Sanic
 from sanic import response
 from sanic.exceptions import NotFound, ServerError
 
-app = Sanic()
+app = Sanic(name='christmas')
 
 
 @app.exception(NotFound)
